@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useGetSingleBookQuery } from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
 
@@ -11,7 +11,7 @@ const SingleBook = () => {
   if (isLoading) return <p>Loading...</p>;
   const book: IBook = data?.data;
 
-  const { title, genre, author, publicationDate, reviews } = book;
+  const { title, genre, author, publicationDate, reviews, _id } = book;
 
   console.log(data);
   console.log("book info", book);
@@ -19,14 +19,34 @@ const SingleBook = () => {
   //   if (isError) return console.log(isError);
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center my-5">Single Book info</h1>
+      <h1 className="text-3xl font-bold text-center my-5">Book info</h1>
 
       <div className="top-parent border-b-2 mb-5 pb-5 lg:h-[250px] max-w-[800px] mx-auto lg:flex">
         <div className="left md:w-1/2 pl-5">
-          <p className="my-5">{title}</p>
-          <p className="my-5">{author}</p>
-          <p className="my-5">{genre}</p>
-          <p className="my-5">{publicationDate}</p>
+          <p className="my-3">
+            <span className="font-bold">Book title: </span>
+            {title}
+          </p>
+          <p className="my-3">
+            <span className="font-bold">Book Author: </span>
+            {author}
+          </p>
+          <p className="my-3">
+            <span className="font-bold">Book genre: </span>
+            {genre}
+          </p>
+          <p className="mb-10">
+            <span className="font-bold">Publication date: </span>
+            {publicationDate}
+          </p>
+          <Link to={`/editBook/${_id}`}>
+            <button className="bg-primary text-white px-5 py-1 m-1">
+              Edit
+            </button>
+          </Link>
+          <button className="bg-primary text-white px-5 py-1 m-1">
+            Delete
+          </button>
         </div>
         <div className="right md:w-1/2">
           <img

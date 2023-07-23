@@ -1,4 +1,6 @@
-const BookCard = () => {
+const BookCard = ({ book }) => {
+  const { title, author, genre, publicationDate } = book;
+
   return (
     <div className="w-60 h-96  bg-primary p-2 m-10 rounded-lg">
       <img
@@ -7,13 +9,12 @@ const BookCard = () => {
         alt=""
       />
       <div className="info w-full h-[58%] bg-slate-100 rounded-xl p-2">
-        <p>Book Title</p>
-        <p>
-          Details: Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          Pariatur aut nihil est iusto possimus temporibus doloribus ratione
-        </p>
+        <p>{title}</p>
+        <p>{author}</p>
+        <p>{genre}</p>
+
         <div className="">
-          <p>Publication date: 2/3/23</p>
+          <p>Publication date: {publicationDate}</p>
           <p>Price: $ 7</p>
         </div>
       </div>

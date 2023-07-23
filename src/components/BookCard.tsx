@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
+
 const BookCard = ({ book }) => {
-  const { title, author, genre, publicationDate } = book;
+  const { title, author, genre, publicationDate, _id } = book;
 
   return (
     <div className="w-60 h-96  bg-primary p-2 m-10 rounded-lg">
@@ -9,13 +11,15 @@ const BookCard = ({ book }) => {
         alt=""
       />
       <div className="info w-full h-[58%] bg-slate-100 rounded-xl p-2">
-        <p>{title}</p>
-        <p>{author}</p>
-        <p>{genre}</p>
+        <p>Name: {title}</p>
+        <p>Author: {author}</p>
+        <p>Genre: {genre}</p>
 
         <div className="">
           <p>Publication date: {publicationDate}</p>
-          <p>Price: $ 7</p>
+          <Link to={`/book/${_id}`}>
+            <button className="bg-sec_primary p-2">Info</button>
+          </Link>
         </div>
       </div>
     </div>

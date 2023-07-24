@@ -1,12 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 
-import { setupListeners } from "@reduxjs/toolkit/query";
+// import { setupListeners } from "@reduxjs/toolkit/query";
+
+import userReducer from "./feature/user/userSlice";
 
 import { booksApi } from "./api/bookApi";
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
+    user: userReducer,
+
     [booksApi.reducerPath]: booksApi.reducer,
   },
 

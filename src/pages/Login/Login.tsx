@@ -1,5 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { loginUser } from "../../redux/feature/user/userSlice";
+import { useEffect } from "react";
+
 const Login = () => {
+  const dispatch = useAppDispatch();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleLogin = (e: any) => {
     e.preventDefault();
@@ -7,8 +12,21 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log("login info:", email, password);
+
+    dispatch(loginUser({ email, password }));
+    // console.log("login info:", email, password);
   };
+
+  const { user, isLoading } = useAppSelector((state) => state.user);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.email, isLoading]);
 
   return (
     <div className="flex justify-center items-center">

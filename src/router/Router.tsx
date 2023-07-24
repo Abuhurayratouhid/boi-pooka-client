@@ -7,11 +7,12 @@ import Books from "../pages/AllBooks/Books";
 import SignUp from "../pages/SignUp/SignUp";
 import SingleBook from "../components/SingleBook";
 import EditBook from "../components/EditBook";
+import App from "../App";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout />,
+    element: <App />,
     children: [
       {
         path: "/",

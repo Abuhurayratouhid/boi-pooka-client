@@ -1,11 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hook";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase/firebase.config";
+import { setUser } from "../redux/feature/user/userSlice";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const { user } = useAppSelector((state) => state.user);
+
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    console.log("log out");
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      dispatch(setUser(null));
+    });
   };
   return (
     <nav className="bg-primary">
@@ -21,7 +37,13 @@ const Navbar = () => {
               <Link to="/">Home</Link>
               <Link to="/books">Books</Link>
               <Link to="/">About</Link>
-              <Link to="/login">Login</Link>
+              {user?.email ? (
+                <p onClick={handleLogout} className="cursor-pointer">
+                  Logout
+                </p>
+              ) : (
+                <Link to="/login">Login</Link>
+              )}
             </div>
           </div>
           <div className="md:hidden">

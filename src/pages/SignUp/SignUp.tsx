@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { createUser } from "../../redux/feature/user/userSlice";
+import { useAppDispatch } from "../../redux/hook";
 
 const SignUp = () => {
+  const dispatch = useAppDispatch();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSignUp = (e: any) => {
     e.preventDefault();
@@ -8,7 +11,9 @@ const SignUp = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log("Sign Up info", email, password);
+
+    dispatch(createUser({ email, password }));
+    // console.log("Sign Up info", email, password);
   };
 
   return (

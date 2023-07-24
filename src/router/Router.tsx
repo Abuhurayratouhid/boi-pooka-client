@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import NotFound from "../notFound/NotFound";
-import Layout from "../layout/Layout";
+
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
 import Books from "../pages/AllBooks/Books";
@@ -8,6 +8,8 @@ import SignUp from "../pages/SignUp/SignUp";
 import SingleBook from "../components/SingleBook";
 import EditBook from "../components/EditBook";
 import App from "../App";
+import AddBook from "../components/AddBook";
+import PrivateRoute from "./PrivetRoute";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       {
         path: "/editBook/:id",
         element: <EditBook />,
+      },
+      {
+        path: "/addBook",
+        element: (
+          <PrivateRoute>
+            <AddBook />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",

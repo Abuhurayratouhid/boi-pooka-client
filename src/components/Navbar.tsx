@@ -36,7 +36,7 @@ const Navbar = () => {
             <div className="ml-4 flex space-x-4 text-[#fff165] uppercase">
               <Link to="/">Home</Link>
               <Link to="/books">Books</Link>
-              <Link to="/">About</Link>
+              <Link to="/addBook">Add book</Link>
               {user?.email ? (
                 <p onClick={handleLogout} className="cursor-pointer">
                   Logout

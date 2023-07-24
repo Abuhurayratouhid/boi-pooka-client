@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { useGetSingleBookQuery } from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
+import { useAppSelector } from "../redux/hook";
 
 const EditBook = () => {
+  const { user } = useAppSelector((state) => state.user);
   const { id } = useParams();
 
   const { data, isLoading } = useGetSingleBookQuery(id as string);
@@ -11,6 +13,7 @@ const EditBook = () => {
   const book: IBook = data?.data;
 
   const { title, genre, author, publicationDate, imageUrl } = book;
+
   return (
     <div>
       <div className="flex justify-center items-center">
@@ -72,9 +75,8 @@ const EditBook = () => {
             type="text"
             name="name"
             id="name"
-            // defaultValue={title}
-            placeholder="User Email"
-            required
+            defaultValue={user?.email as string}
+            readOnly
           />
           <br />
           <button className="bg-primary text-white w-full py-2">Edit</button>

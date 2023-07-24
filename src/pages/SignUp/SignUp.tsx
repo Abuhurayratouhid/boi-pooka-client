@@ -1,6 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { createUser } from "../../redux/feature/user/userSlice";
-import { useAppDispatch } from "../../redux/hook";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { useEffect } from "react";
 
 const SignUp = () => {
   const dispatch = useAppDispatch();
@@ -15,6 +16,18 @@ const SignUp = () => {
     dispatch(createUser({ email, password }));
     // console.log("Sign Up info", email, password);
   };
+
+  const { user, isLoading, isError } = useAppSelector((state) => state.user);
+
+  console.log(isError);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user.email && !isLoading) {
+      navigate("/");
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user.email, isLoading]);
 
   return (
     <div className="flex justify-center items-center">

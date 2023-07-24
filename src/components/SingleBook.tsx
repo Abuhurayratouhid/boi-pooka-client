@@ -1,8 +1,10 @@
 import { Link, useParams } from "react-router-dom";
 import { useGetSingleBookQuery } from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
+import { useAppSelector } from "../redux/hook";
 
 const SingleBook = () => {
+  const { user } = useAppSelector((state) => state.user);
   const { id } = useParams();
   console.log(id);
 
@@ -11,10 +13,16 @@ const SingleBook = () => {
   if (isLoading) return <p>Loading...</p>;
   const book: IBook = data?.data;
 
-  const { title, genre, author, publicationDate, reviews, _id } = book;
+  const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
+    book;
 
-  console.log(data);
-  console.log("book info", book);
+  const handleDelete = () => {
+    if (user.email !== creatorEmail) {
+      alert("Only Book owner can delete his book");
+    } else {
+      console.log("delete book");
+    }
+  };
 
   //   if (isError) return console.log(isError);
   return (
@@ -44,7 +52,10 @@ const SingleBook = () => {
               Edit
             </button>
           </Link>
-          <button className="bg-primary text-white px-5 py-1 m-1">
+          <button
+            onClick={handleDelete}
+            className="bg-primary text-white px-5 py-1 m-1"
+          >
             Delete
           </button>
         </div>
@@ -72,7 +83,11 @@ const SingleBook = () => {
         </div>
         <div className="right md:w-1/2 max-h-[100%] overflow-y-auto overflow-x-hidden">
           <p className="text-center text-xl font-bold">Previous Reviews:</p>
-          <p>{reviews}</p>
+          <p>
+            {reviews.map((review) => (
+              <p key={review?._id}>{review?.comment}</p>
+            ))}
+          </p>
         </div>
       </div>
     </div>

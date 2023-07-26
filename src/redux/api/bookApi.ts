@@ -9,11 +9,21 @@ export const booksApi = createApi({
     }),
     getSingleBook: builder.query({
       query: (id: string) => {
-        console.log("Is ID found", id);
+        // console.log("Is ID found", id);
         return `/book/${id}`;
       },
+    }),
+    deleteBook: builder.mutation({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
 
-export const { useGetAllBooksQuery, useGetSingleBookQuery } = booksApi;
+export const {
+  useGetAllBooksQuery,
+  useGetSingleBookQuery,
+  useDeleteBookMutation,
+} = booksApi;

@@ -1,12 +1,17 @@
 import { Link, useParams } from "react-router-dom";
-import { useGetSingleBookQuery } from "../redux/api/bookApi";
+import {
+  useDeleteBookMutation,
+  useGetSingleBookQuery,
+} from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
 
 const SingleBook = () => {
   const { user } = useAppSelector((state) => state.user);
+
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
+  const [deleteBook] = useDeleteBookMutation();
 
   const { data, isLoading } = useGetSingleBookQuery(id as string);
 
@@ -15,11 +20,13 @@ const SingleBook = () => {
 
   const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
     book;
+  // eslint-disable-next-line react-hooks/rules-of-hooks
 
   const handleDelete = () => {
     if (user.email !== creatorEmail) {
       alert("Only Book owner can delete his book");
     } else {
+      deleteBook(_id);
       console.log("delete book");
     }
   };

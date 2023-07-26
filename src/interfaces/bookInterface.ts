@@ -1,5 +1,6 @@
 export interface IBook {
   _id: string;
+  creatorEmail: string;
   title: string;
   author: string;
   genre: string;

@@ -1,5 +1,6 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  useAddReviewMutation,
   useDeleteBookMutation,
   useGetSingleBookQuery,
 } from "../redux/api/bookApi";
@@ -13,6 +14,10 @@ const SingleBook = () => {
   // console.log(id);
   const [deleteBook] = useDeleteBookMutation();
 
+  const [addReview] = useAddReviewMutation();
+
+  const navigate = useNavigate();
+
   const { data, isLoading } = useGetSingleBookQuery(id as string);
 
   if (isLoading) return <p>Loading...</p>;
@@ -20,6 +25,7 @@ const SingleBook = () => {
 
   const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
     book;
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
   const handleDelete = () => {
@@ -29,6 +35,24 @@ const SingleBook = () => {
       deleteBook(_id);
       console.log("delete book");
     }
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleReview = (e: any) => {
+    e.preventDefault();
+    if (!user.email) {
+      navigate("/login");
+    }
+    const comment = e.target.review.value;
+
+    const newReview = {
+      _id,
+      comment,
+    };
+
+    addReview(newReview);
+
+    console.log("review added:", comment);
   };
 
   //   if (isError) return console.log(isError);
@@ -79,22 +103,29 @@ const SingleBook = () => {
 
       <div className="top-parent  mb-5 pb-5 lg:h-[250px] max-w-[800px] mx-auto lg:flex">
         <div className="left md:w-1/2 p-5">
-          <textarea
-            className="w-full h-full border p-2"
-            placeholder="Add a review"
-          ></textarea>
+          <form onSubmit={handleReview} className="w-full h-[100%]">
+            <textarea
+              className="w-full h-full border p-2"
+              placeholder="Add a review"
+              name="review"
+              required
+            ></textarea>
 
-          <button className="bg-primary text-white px-5 py-1 mt-1">
-            Add Review
-          </button>
+            <button
+              type="submit"
+              className="bg-primary text-white px-5 py-1 mt-1"
+            >
+              Add Review
+            </button>
+          </form>
         </div>
         <div className="right md:w-1/2 max-h-[100%] overflow-y-auto overflow-x-hidden">
           <p className="text-center text-xl font-bold">Previous Reviews:</p>
-          <p>
+          <div>
             {reviews.map((review) => (
               <p key={review?._id}>{review?.comment}</p>
             ))}
-          </p>
+          </div>
         </div>
       </div>
     </div>

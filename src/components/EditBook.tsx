@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom";
-import { useGetSingleBookQuery } from "../redux/api/bookApi";
+import {
+  useEditBookMutation,
+  useGetSingleBookQuery,
+} from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
 
@@ -9,16 +12,45 @@ const EditBook = () => {
 
   const { data, isLoading } = useGetSingleBookQuery(id as string);
 
+  const [editBook] = useEditBookMutation();
+
   if (isLoading) return <p>Loading...</p>;
   const book: IBook = data?.data;
 
-  const { title, genre, author, publicationDate, imageUrl } = book;
+  const { title, genre, author, publicationDate, imageUrl, _id, creatorEmail } =
+    book;
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBookEdit = (event: any) => {
     event.preventDefault();
 
-    console.log("Book Edited");
+    const form = event.target;
+
+    const title = form.title.value;
+    const author = form.author.value;
+    const imageUrl = form.imageUrl.value;
+    const genre = form.genre.value;
+    const email = form.email.value;
+    const publicationDate = form.publicationDate.value;
+
+    const editedInfo = {
+      _id,
+      title,
+      author,
+      imageUrl,
+      genre,
+      creatorEmail: email,
+      publicationDate,
+    };
+
+    if (user.email !== creatorEmail) {
+      alert("Only Book owner can Edit his book");
+    } else {
+      console.log("Edited");
+      editBook(editedInfo);
+    }
+
+    // console.log("Book Edited", editedInfo);
   };
 
   return (
@@ -31,8 +63,8 @@ const EditBook = () => {
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
               type="text"
-              name="name"
-              id="name"
+              name="title"
+              id="title"
               defaultValue={title}
               required
             />
@@ -41,8 +73,8 @@ const EditBook = () => {
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
               type="text"
-              name="name"
-              id="name"
+              name="imageUrl"
+              id="img"
               defaultValue={imageUrl}
               required
             />
@@ -51,8 +83,8 @@ const EditBook = () => {
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
               type="text"
-              name="name"
-              id="name"
+              name="author"
+              id="author"
               defaultValue={author}
               required
             />
@@ -61,8 +93,8 @@ const EditBook = () => {
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
               type="text"
-              name="name"
-              id="name"
+              name="genre"
+              id="genre"
               defaultValue={genre}
               required
             />
@@ -71,8 +103,8 @@ const EditBook = () => {
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
               type="text"
-              name="name"
-              id="name"
+              name="publicationDate"
+              id="date"
               defaultValue={publicationDate}
               required
             />
@@ -80,9 +112,9 @@ const EditBook = () => {
             <label htmlFor="">Creator Email</label>
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
-              type="text"
-              name="name"
-              id="name"
+              type="email"
+              name="email"
+              id="email"
               defaultValue={user?.email as string}
               readOnly
             />

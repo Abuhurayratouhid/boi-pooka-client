@@ -20,6 +20,20 @@ export const booksApi = createApi({
         body: data,
       }),
     }),
+    editBook: builder.mutation({
+      query: ({ _id, ...data }) => ({
+        url: `/${_id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
+    addReview: builder.mutation({
+      query: ({ _id, ...data }) => ({
+        url: `/review/${_id}`,
+        method: "PATCH",
+        body: data,
+      }),
+    }),
     deleteBook: builder.mutation({
       query: (id) => ({
         url: `/${id}`,
@@ -34,4 +48,6 @@ export const {
   useGetSingleBookQuery,
   useDeleteBookMutation,
   useCreateBookMutation,
+  useEditBookMutation,
+  useAddReviewMutation,
 } = booksApi;

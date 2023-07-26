@@ -1,7 +1,9 @@
+import { useCreateBookMutation } from "../redux/api/bookApi";
 import { useAppSelector } from "../redux/hook";
 
 const AddBook = () => {
   const { user } = useAppSelector((state) => state.user);
+  const [createBook, { isError }] = useCreateBookMutation();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAddBook = (e: any) => {
     e.preventDefault();
@@ -14,7 +16,17 @@ const AddBook = () => {
     const email = form.email.value;
     const publicationDate = form.publicationDate.value;
 
-    console.log(title, author, imageUrl, genre, email, publicationDate);
+    const bookInfo = {
+      title,
+      author,
+      imageUrl,
+      genre,
+      creatorEmail: email,
+      publicationDate,
+    };
+    createBook(bookInfo);
+    console.log(isError);
+    console.log(bookInfo);
   };
   return (
     <div>

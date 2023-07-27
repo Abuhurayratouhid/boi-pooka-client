@@ -1,11 +1,12 @@
 import BookCard from "../../components/BookCard";
+import Loader from "../../components/Loader";
 import { IBook } from "../../interfaces/bookInterface";
 import { useGetAllBooksQuery } from "../../redux/api/bookApi";
 
 const NewBooks = () => {
-  const { data, isLoading, isError } = useGetAllBooksQuery();
+  const { data, isLoading, isError } = useGetAllBooksQuery("");
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
 
   const allBooks: IBook[] = data?.data;
 

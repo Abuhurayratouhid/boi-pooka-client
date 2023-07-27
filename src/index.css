@@ -1,3 +1,39 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* css for loader animation */
+
+@keyframes animate-bars {
+  0%,
+  100% {
+    height: 10px;
+  }
+  50% {
+    height: 40px;
+  }
+}
+
+.loader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bar {
+  width: 2px;
+  background-color: #5653e0; /* Replace this with the color you want */
+  animation: animate-bars 1s infinite ease-in-out;
+}
+
+.bar1 {
+  animation-delay: 0s;
+}
+.bar2 {
+  animation-delay: 0.1s;
+}
+.bar3 {
+  animation-delay: 0.2s;
+}
+.bar4 {
+  animation-delay: 0.3s;
+}

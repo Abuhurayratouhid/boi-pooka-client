@@ -6,21 +6,39 @@ import {
 } from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
+import Loader from "./Loader";
+import { toast } from "react-toastify";
 
 const SingleBook = () => {
   const { user } = useAppSelector((state) => state.user);
 
   const { id } = useParams();
   // console.log(id);
-  const [deleteBook] = useDeleteBookMutation();
+  const [
+    deleteBook,
+    {
+      isLoading: deleteLoading,
+      isError: deleteError,
+      isSuccess: deleteSuccess,
+    },
+  ] = useDeleteBookMutation();
 
-  const [addReview] = useAddReviewMutation();
+  const [
+    addReview,
+    {
+      isLoading: reviewLoading,
+      isError: reviewError,
+      isSuccess: reviewSuccess,
+    },
+  ] = useAddReviewMutation();
 
   const navigate = useNavigate();
 
-  const { data, isLoading } = useGetSingleBookQuery(id as string);
+  const { data, isLoading: dataLoading } = useGetSingleBookQuery(id as string);
 
-  if (isLoading) return <p>Loading...</p>;
+  if (dataLoading) {
+    return <Loader />;
+  }
   const book: IBook = data?.data;
 
   const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
@@ -30,10 +48,15 @@ const SingleBook = () => {
 
   const handleDelete = () => {
     if (user.email !== creatorEmail) {
-      alert("Only Book owner can delete his book");
+      toast.warn("You are not allowed to delete this book");
     } else {
+      const confirm = alert("Are you sure??");
+      console.log(confirm);
       deleteBook(_id);
-      console.log("delete book");
+      if (deleteSuccess) {
+        toast.success("Book deleted");
+      }
+      // console.log("delete book");
     }
   };
 

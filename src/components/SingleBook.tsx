@@ -11,9 +11,16 @@ import { toast } from "react-toastify";
 
 const SingleBook = () => {
   const { user } = useAppSelector((state) => state.user);
-
+  const navigate = useNavigate();
   const { id } = useParams();
-  // console.log(id);
+  console.log(id);
+  const { data, isLoading: dataLoading } = useGetSingleBookQuery(id as string);
+
+  const book: IBook = data?.data;
+
+  const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
+    book || {};
+
   const [
     deleteBook,
     {
@@ -22,6 +29,12 @@ const SingleBook = () => {
       isSuccess: deleteSuccess,
     },
   ] = useDeleteBookMutation();
+  if (deleteSuccess) {
+    toast.success("Book deleted");
+  }
+  if (deleteError) {
+    toast.success("Opps, ERROR");
+  }
 
   const [
     addReview,
@@ -32,33 +45,26 @@ const SingleBook = () => {
     },
   ] = useAddReviewMutation();
 
-  const navigate = useNavigate();
-
-  const { data, isLoading: dataLoading } = useGetSingleBookQuery(id as string);
-
-  if (dataLoading) {
-    return <Loader />;
+  if (reviewSuccess) {
+    toast.success("Review added");
   }
-  const book: IBook = data?.data;
 
-  const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
-    book;
+  if (reviewError) {
+    toast.error("Oppss, ERROR");
+  }
+
+  // if (reviewLoading) <Loader />;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
-  const handleDelete = () => {
-    if (user.email !== creatorEmail) {
-      toast.warn("You are not allowed to delete this book");
-    } else {
-      const confirm = alert("Are you sure??");
-      console.log(confirm);
-      deleteBook(_id);
-      if (deleteSuccess) {
-        toast.success("Book deleted");
-      }
-      // console.log("delete book");
-    }
-  };
+  // const handleDelete = () => {
+  //   if (user.email !== creatorEmail) {
+  //     return toast.warn("You are not allowed to delete this book");
+  //   } else {
+  //     // const confirm = alert("Are you sure??");
+  //     deleteBook(_id);
+  //   }
+  // };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleReview = (e: any) => {
@@ -75,10 +81,13 @@ const SingleBook = () => {
 
     addReview(newReview);
 
-    console.log("review added:", comment);
+    // console.log("review added:", comment);
   };
 
   //   if (isError) return console.log(isError);
+  if (dataLoading) {
+    return <Loader />;
+  }
   return (
     <div>
       <h1 className="text-3xl font-bold text-center my-5">Book info</h1>
@@ -107,7 +116,11 @@ const SingleBook = () => {
             </button>
           </Link>
           <button
-            onClick={handleDelete}
+            onClick={() =>
+              user.email !== creatorEmail
+                ? toast.warn("You are not allowed to delete this book")
+                : deleteBook(_id)
+            }
             className="bg-primary text-white px-5 py-1 m-1"
           >
             Delete
@@ -145,7 +158,7 @@ const SingleBook = () => {
         <div className="right md:w-1/2 max-h-[100%] overflow-y-auto overflow-x-hidden">
           <p className="text-center text-xl font-bold">Previous Reviews:</p>
           <div>
-            {reviews.map((review) => (
+            {reviews?.map((review) => (
               <p key={review?._id}>{review?.comment}</p>
             ))}
           </div>

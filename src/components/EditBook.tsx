@@ -5,6 +5,9 @@ import {
 } from "../redux/api/bookApi";
 import { IBook } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
+import { toast } from "react-toastify";
+import Loader from "./Loader";
+import { useEffect } from "react";
 
 const EditBook = () => {
   const { user } = useAppSelector((state) => state.user);
@@ -12,9 +15,17 @@ const EditBook = () => {
 
   const { data, isLoading } = useGetSingleBookQuery(id as string);
 
-  const [editBook] = useEditBookMutation();
+  const [editBook, { isSuccess, isLoading: editLoading }] =
+    useEditBookMutation();
+  if (isSuccess) {
+    toast.success("Edit successful");
+  }
+  if (editLoading) {
+    return <Loader />;
+  }
 
   if (isLoading) return <p>Loading...</p>;
+
   const book: IBook = data?.data;
 
   const { title, genre, author, publicationDate, imageUrl, _id, creatorEmail } =

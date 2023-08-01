@@ -1,9 +1,23 @@
 import { useCreateBookMutation } from "../redux/api/bookApi";
 import { useAppSelector } from "../redux/hook";
+import { toast } from "react-toastify";
+import Loader from "./Loader";
 
 const AddBook = () => {
   const { user } = useAppSelector((state) => state.user);
-  const [createBook, { isError }] = useCreateBookMutation();
+  const [createBook, { isError, isLoading, isSuccess }] =
+    useCreateBookMutation();
+  if (isError) {
+    toast.error("Opps, ERROR");
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isSuccess) {
+    toast.success("Book added");
+  }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAddBook = (e: any) => {
     e.preventDefault();

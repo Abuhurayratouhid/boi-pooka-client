@@ -1,10 +1,11 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   useAddReviewMutation,
+  useAddToWishListMutation,
   useDeleteBookMutation,
   useGetSingleBookQuery,
 } from "../redux/api/bookApi";
-import { IBook } from "../interfaces/bookInterface";
+import { IBook, IComment } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
@@ -13,13 +14,23 @@ const SingleBook = () => {
   const { user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
   const { id } = useParams();
-  console.log(id);
+  // console.log(id);
   const { data, isLoading: dataLoading } = useGetSingleBookQuery(id as string);
+
+  const [addToWishList] = useAddToWishListMutation();
 
   const book: IBook = data?.data;
 
-  const { title, genre, author, publicationDate, reviews, _id, creatorEmail } =
-    book || {};
+  const {
+    title,
+    genre,
+    imageUrl,
+    author,
+    publicationDate,
+    reviews,
+    _id,
+    creatorEmail,
+  } = book || {};
 
   const [
     deleteBook,
@@ -88,6 +99,22 @@ const SingleBook = () => {
     // console.log("review added:", comment);
   };
 
+  const handleWishList = () => {
+    const info = {
+      title,
+      imageUrl,
+      creatorEmail: user?.email,
+      author,
+      genre,
+      reviews,
+      publicationDate,
+    };
+    addToWishList(info);
+    toast.success("Added to wishList");
+    navigate("/wishList");
+    // console.log("added to wishList", info);
+  };
+
   //   if (isError) return console.log(isError);
   if (dataLoading) {
     return <Loader />;
@@ -126,7 +153,10 @@ const SingleBook = () => {
             Delete
           </button>
           <br />
-          <button className="bg-secondary  px-7 py-1 mb-2 ">
+          <button
+            onClick={handleWishList}
+            className="bg-secondary  px-7 py-1 mb-2 "
+          >
             Add to wishList
           </button>
         </div>

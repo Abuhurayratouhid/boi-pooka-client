@@ -12,3 +12,8 @@ export interface IBook {
   isCompleted: boolean;
   reviews: string[];
 }
+
+export interface IComment {
+  _id: string;
+  comment: string;
+}

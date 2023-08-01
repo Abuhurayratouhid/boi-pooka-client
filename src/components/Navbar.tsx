@@ -37,6 +37,7 @@ const Navbar = () => {
               <Link to="/">Home</Link>
               <Link to="/books">Books</Link>
               <Link to="/addBook">Add book</Link>
+              <Link to="/wishList">wishList</Link>
               {user?.email ? (
                 <p onClick={handleLogout} className="cursor-pointer">
                   Logout
@@ -80,6 +81,9 @@ const Navbar = () => {
             </Link>
             <Link to="/addBook" onClick={toggleMenu}>
               Add book
+            </Link>
+            <Link to="/wishList" onClick={toggleMenu}>
+              wishList
             </Link>
             {user?.email ? (
               <p onClick={handleLogout} className="cursor-pointer">

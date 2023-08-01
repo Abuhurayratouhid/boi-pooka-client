@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const booksApi = createApi({
   reducerPath: "books",
   baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api/v1" }),
-  tagTypes: ["books"],
+  tagTypes: ["books", "wishList"],
   endpoints: (builder) => ({
     getAllBooks: builder.query({
       query: (endpoint) => `/${endpoint}`,
@@ -20,6 +20,13 @@ export const booksApi = createApi({
       },
       providesTags: ["books"],
     }),
+    getWishList: builder.query({
+      query: (email: string) => {
+        // console.log("Is ID found", id);
+        return `/wishList/${email}`;
+      },
+      providesTags: ["wishList"],
+    }),
     createBook: builder.mutation({
       query: (data) => ({
         url: "/create-book",
@@ -27,6 +34,14 @@ export const booksApi = createApi({
         body: data,
       }),
       invalidatesTags: ["books"],
+    }),
+    addToWishList: builder.mutation({
+      query: (data) => ({
+        url: "/addWishList",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["wishList"],
     }),
     editBook: builder.mutation({
       query: ({ _id, ...data }) => ({
@@ -62,4 +77,6 @@ export const {
   useEditBookMutation,
   useAddReviewMutation,
   useGetAllBooksBySearchQuery,
+  useAddToWishListMutation,
+  useGetWishListQuery,
 } = booksApi;

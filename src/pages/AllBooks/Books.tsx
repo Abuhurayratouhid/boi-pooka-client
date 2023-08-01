@@ -9,15 +9,20 @@ import {
 
 const Books = () => {
   const [searchValue, setSearchValue] = useState();
-  const [selectedValue, setSelectedValue] = useState<string>("");
+  const [selectedValue, setSelectedValue] = useState<string>("*");
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedValue(event.target.value);
   };
   const { data: searchData } = useGetAllBooksBySearchQuery(searchValue);
+  const { data: dataFilteredByGenre } =
+    useGetAllBooksBySearchQuery(selectedValue);
 
   const allSearchData = searchData?.data?.data;
-  console.log("allSearchData", allSearchData);
+  // console.log("allSearchData", allSearchData);
+
+  const allDataFilteredByGenre = dataFilteredByGenre?.data?.data;
+  console.log("allDataFilteredByGenre", allDataFilteredByGenre);
 
   const { data, isLoading } = useGetAllBooksQuery("books");
   const allBooks: IBook[] = data?.data?.data;
@@ -36,16 +41,20 @@ const Books = () => {
   if (isLoading) return <Loader />;
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center my-3">All Books </h1>
-      <label htmlFor="dropdown">Select an option:</label>
-      <select id="dropdown" value={selectedValue} onChange={handleChange}>
-        <option value="">-- Select --</option>
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
-      </select>
-      <p>Selected Value: {selectedValue}</p>
-      <div className="text-center">
+      {/* <label htmlFor="dropdown">Select an option:</label> */}
+
+      <div className="text-center mt-5">
+        <label htmlFor="" className="text-xl font-bold uppercase ">
+          Filter by genre:{" "}
+        </label>
+        <select id="dropdown" value={selectedValue} onChange={handleChange}>
+          {/* <option value="*"></option> */}
+          <option value="Fiction">Fiction</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Romance">Romance</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Thriller">Thriller</option>
+        </select>
         <form onSubmit={handleSearch}>
           <input
             className="w-[70vw] border rounded-xl px-2 py-2"
@@ -63,6 +72,15 @@ const Books = () => {
           </button>
         </form>
       </div>
+      {/* dataFilteredByGenre */}
+      <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {allDataFilteredByGenre?.length > 0
+          ? allDataFilteredByGenre?.map((book: IBook) => (
+              <BookCard key={book._id} book={book}></BookCard>
+            ))
+          : ""}
+      </div>
+      <h1 className="text-3xl font-bold text-center my-3">All Books </h1>
       <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {allSearchData?.length > 0
           ? allSearchData?.map((book: IBook) => (

@@ -57,14 +57,18 @@ const SingleBook = () => {
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
 
-  // const handleDelete = () => {
-  //   if (user.email !== creatorEmail) {
-  //     return toast.warn("You are not allowed to delete this book");
-  //   } else {
-  //     // const confirm = alert("Are you sure??");
-  //     deleteBook(_id);
-  //   }
-  // };
+  const handleDelete = () => {
+    if (user.email !== creatorEmail) {
+      return toast.warn("You are not allowed to delete this book");
+    } else {
+      const confirm = window.confirm("Are you sure??");
+      if (confirm) {
+        deleteBook(_id);
+        toast.success("Book deleted");
+        navigate("/");
+      }
+    }
+  };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleReview = (e: any) => {
@@ -106,24 +110,24 @@ const SingleBook = () => {
             <span className="font-bold">Book genre: </span>
             {genre}
           </p>
-          <p className="mb-10">
+          <p className="mb-3">
             <span className="font-bold">Publication date: </span>
             {publicationDate}
           </p>
           <Link to={`/editBook/${_id}`}>
-            <button className="bg-primary text-white px-5 py-1 m-1">
+            <button className="bg-primary text-white px-5 py-1 my-2 mr-3">
               Edit
             </button>
           </Link>
           <button
-            onClick={() =>
-              user.email !== creatorEmail
-                ? toast.warn("You are not allowed to delete this book")
-                : deleteBook(_id)
-            }
-            className="bg-primary text-white px-5 py-1 m-1"
+            onClick={handleDelete}
+            className="bg-primary text-white px-5 py-1 my-2"
           >
             Delete
+          </button>
+          <br />
+          <button className="bg-secondary  px-7 py-1 mb-2 ">
+            Add to wishList
           </button>
         </div>
         <div className="right md:w-1/2">
@@ -155,7 +159,7 @@ const SingleBook = () => {
             </button>
           </form>
         </div>
-        <div className="right md:w-1/2 max-h-[100%] overflow-y-auto overflow-x-hidden">
+        <div className="right md:w-1/2 max-h-[100%] overflow-y-auto overflow-x-hidden p-2">
           <p className="text-center text-xl font-bold">Previous Reviews:</p>
           <div>
             {reviews?.map((review) => (

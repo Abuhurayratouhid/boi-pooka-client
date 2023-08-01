@@ -71,19 +71,25 @@ const Navbar = () => {
       </div>
       {isMenuOpen && (
         <div className="md:hidden">
-          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
-            <button className="text-gray-300 " onClick={toggleMenu}>
+          <div className="px-2 pt-2 pb-3 text-[#fff165] text-center uppercase space-y-1 sm:px-3 flex flex-col">
+            <Link to="/" onClick={toggleMenu}>
               Home
-            </button>
-            <button className="text-gray-300 " onClick={toggleMenu}>
+            </Link>
+            <Link to="/books" onClick={toggleMenu}>
               Books
-            </button>
-            <button className="text-gray-300 " onClick={toggleMenu}>
-              Contact
-            </button>
-            <button className="text-gray-300 " onClick={toggleMenu}>
-              Login
-            </button>
+            </Link>
+            <Link to="/addBook" onClick={toggleMenu}>
+              Add book
+            </Link>
+            {user?.email ? (
+              <p onClick={handleLogout} className="cursor-pointer">
+                Logout
+              </p>
+            ) : (
+              <Link to="/login" onClick={toggleMenu}>
+                Login
+              </Link>
+            )}
           </div>
         </div>
       )}

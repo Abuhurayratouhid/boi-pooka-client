@@ -6,7 +6,7 @@ export default {
       colors: {
         primary: "#5653e0",
         sec_primary: "#f5e6d9",
-        secondary: "#f5e6d9",
+        secondary: "#fff165",
         sec_secondary: "#646464",
         accent: "#f1afc0",
         sec_accent: "#c19789",

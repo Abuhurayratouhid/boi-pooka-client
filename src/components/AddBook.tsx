@@ -2,8 +2,10 @@ import { useCreateBookMutation } from "../redux/api/bookApi";
 import { useAppSelector } from "../redux/hook";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
+import { useNavigate } from "react-router-dom";
 
 const AddBook = () => {
+  const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
   const [createBook, { isError, isLoading, isSuccess }] =
     useCreateBookMutation();
@@ -39,6 +41,7 @@ const AddBook = () => {
       publicationDate,
     };
     createBook(bookInfo);
+    navigate("/books");
     console.log(isError);
     console.log(bookInfo);
   };
@@ -88,10 +91,10 @@ const AddBook = () => {
               required
             />
             <br />
-            <label htmlFor="">Publication Date</label>
+            <label htmlFor="">Publication Year</label>
             <input
               className="w-full border px-2 py-1 rounded-xl mb-5"
-              type="text"
+              type="number"
               name="publicationDate"
               id="name"
               // defaultValue={publicationDate}

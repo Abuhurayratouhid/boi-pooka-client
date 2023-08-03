@@ -5,7 +5,7 @@ import {
   useDeleteBookMutation,
   useGetSingleBookQuery,
 } from "../redux/api/bookApi";
-import { IBook, IComment } from "../interfaces/bookInterface";
+import { IBook } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
 import Loader from "./Loader";
 import { toast } from "react-toastify";
@@ -36,37 +36,19 @@ const SingleBook = () => {
     deleteBook,
     {
       isLoading: deleteLoading,
-      isError: deleteError,
-      isSuccess: deleteSuccess,
+      // isError: deleteError,
+      // isSuccess: deleteSuccess,
     },
   ] = useDeleteBookMutation();
-  if (deleteSuccess) {
-    toast.success("Book deleted");
-  }
-  if (deleteError) {
-    toast.success("Opps, ERROR");
-  }
 
   const [
     addReview,
     {
       isLoading: reviewLoading,
-      isError: reviewError,
-      isSuccess: reviewSuccess,
+      // isError: reviewError,
+      // isSuccess: reviewSuccess,
     },
   ] = useAddReviewMutation();
-
-  if (reviewSuccess) {
-    toast.success("Review added");
-  }
-
-  if (reviewError) {
-    toast.error("Oppss, ERROR");
-  }
-
-  // if (reviewLoading) <Loader />;
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
 
   const handleDelete = () => {
     if (user.email !== creatorEmail) {
@@ -81,7 +63,6 @@ const SingleBook = () => {
     }
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleReview = (e: any) => {
     e.preventDefault();
     if (!user.email) {
@@ -95,12 +76,13 @@ const SingleBook = () => {
     };
 
     addReview(newReview);
-
+    toast.success("Review added");
     // console.log("review added:", comment);
   };
 
   const handleWishList = () => {
     const info = {
+      id: _id,
       title,
       imageUrl,
       creatorEmail: user?.email,
@@ -115,6 +97,12 @@ const SingleBook = () => {
     // console.log("added to wishList", info);
   };
 
+  if (deleteLoading) {
+    return <Loader />;
+  }
+  if (reviewLoading) {
+    return <Loader />;
+  }
   //   if (isError) return console.log(isError);
   if (dataLoading) {
     return <Loader />;

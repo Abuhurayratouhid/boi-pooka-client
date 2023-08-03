@@ -28,11 +28,9 @@ const Books = () => {
   const allBooks: IBook[] = data?.data?.data;
   // console.log("all books", allBooks);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSearch = (e: any) => {
     e.preventDefault();
     const searchValue = e.target.search.value;
-    // eslint-disable-next-line react-hooks/rules-of-hooks
 
     setSearchValue(searchValue);
     console.log("search", data);
@@ -44,17 +42,6 @@ const Books = () => {
       {/* <label htmlFor="dropdown">Select an option:</label> */}
 
       <div className="text-center mt-5">
-        <label htmlFor="" className="text-xl font-bold uppercase ">
-          Filter by genre:{" "}
-        </label>
-        <select id="dropdown" value={selectedValue} onChange={handleChange}>
-          {/* <option value="*"></option> */}
-          <option value="Fiction">Fiction</option>
-          <option value="Mystery">Mystery</option>
-          <option value="Romance">Romance</option>
-          <option value="Fantasy">Fantasy</option>
-          <option value="Thriller">Thriller</option>
-        </select>
         <form onSubmit={handleSearch}>
           <input
             className="w-[70vw] border rounded-xl px-2 py-2"
@@ -71,6 +58,18 @@ const Books = () => {
             search
           </button>
         </form>
+
+        <label htmlFor="" className="text-xl font-bold uppercase ">
+          Filter by genre:{" "}
+        </label>
+        <select id="dropdown" value={selectedValue} onChange={handleChange}>
+          {/* <option value="*"></option> */}
+          <option value="Fiction">Fiction</option>
+          <option value="Mystery">Mystery</option>
+          <option value="Romance">Romance</option>
+          <option value="Fantasy">Fantasy</option>
+          <option value="Thriller">Thriller</option>
+        </select>
       </div>
       {/* dataFilteredByGenre */}
       <div className="max-w-[1000px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">

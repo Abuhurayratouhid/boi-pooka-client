@@ -27,7 +27,12 @@ const router = createBrowserRouter([
       },
       {
         path: "/wishList",
-        element: <WishList />,
+        element: (
+          <PrivateRoute>
+            {" "}
+            <WishList />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/book/:id",

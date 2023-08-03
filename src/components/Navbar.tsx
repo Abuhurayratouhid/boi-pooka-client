@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
 import { setUser } from "../redux/feature/user/userSlice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,6 +22,7 @@ const Navbar = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
       dispatch(setUser(null));
+      toast.success("Successfully Logout");
     });
   };
   return (

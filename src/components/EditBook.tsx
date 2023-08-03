@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   useEditBookMutation,
   useGetSingleBookQuery,
@@ -7,31 +7,21 @@ import { IBook } from "../interfaces/bookInterface";
 import { useAppSelector } from "../redux/hook";
 import { toast } from "react-toastify";
 import Loader from "./Loader";
-import { useEffect } from "react";
 
 const EditBook = () => {
+  const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
   const { id } = useParams();
 
   const { data, isLoading } = useGetSingleBookQuery(id as string);
 
-  const [editBook, { isSuccess, isLoading: editLoading }] =
-    useEditBookMutation();
-  if (isSuccess) {
-    toast.success("Edit successful");
-  }
-  if (editLoading) {
-    return <Loader />;
-  }
-
-  if (isLoading) return <p>Loading...</p>;
+  const [editBook, { isLoading: editLoading }] = useEditBookMutation();
 
   const book: IBook = data?.data;
 
   const { title, genre, author, publicationDate, imageUrl, _id, creatorEmail } =
     book;
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleBookEdit = (event: any) => {
     event.preventDefault();
 
@@ -59,10 +49,18 @@ const EditBook = () => {
     } else {
       console.log("Edited");
       editBook(editedInfo);
+      toast.success("Edit successful");
+      navigate("/books");
     }
 
     // console.log("Book Edited", editedInfo);
   };
+  if (editLoading) {
+    return <Loader />;
+  }
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div>

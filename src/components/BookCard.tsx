@@ -12,15 +12,15 @@ const BookCard = ({ book }) => {
         alt=""
       />
       <div className="info w-full h-[58%] bg-slate-100 rounded-xl p-2">
-        <p>Name: {title}</p>
+        <p>Name: {title} </p>
         <p>Author: {author}</p>
         <p>Genre: {genre}</p>
 
         <div className="">
           <p>Publication date: {publicationDate}</p>
           <Link to={`/book/${_id}`}>
-            <button className="bg-primary text-white px-5 py-1 mt-3">
-              Details
+            <button className="bg-primary text-white px-5 py-1 mt-12">
+              More Details
             </button>
           </Link>
         </div>

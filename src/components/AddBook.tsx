@@ -7,20 +7,8 @@ import { useNavigate } from "react-router-dom";
 const AddBook = () => {
   const navigate = useNavigate();
   const { user } = useAppSelector((state) => state.user);
-  const [createBook, { isError, isLoading, isSuccess }] =
-    useCreateBookMutation();
-  if (isError) {
-    toast.error("Opps, ERROR");
-  }
+  const [createBook, { isError, isLoading }] = useCreateBookMutation();
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isSuccess) {
-    toast.success("Book added");
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleAddBook = (e: any) => {
     e.preventDefault();
 
@@ -41,10 +29,16 @@ const AddBook = () => {
       publicationDate,
     };
     createBook(bookInfo);
+    toast.success("Book added");
     navigate("/books");
     console.log(isError);
-    console.log(bookInfo);
   };
+  // if (isSuccess) {
+
+  // }
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div>
       <div className="flex justify-center items-center">

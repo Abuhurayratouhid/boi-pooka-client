@@ -2,10 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { loginUser } from "../../redux/feature/user/userSlice";
 import { useEffect } from "react";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useAppDispatch();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   const handleLogin = (e: any) => {
     e.preventDefault();
 
@@ -14,6 +15,8 @@ const Login = () => {
     const password = form.password.value;
 
     dispatch(loginUser({ email, password }));
+    toast.success("Login Successful");
+
     // console.log("login info:", email, password);
   };
 
@@ -25,7 +28,6 @@ const Login = () => {
     if (user.email && !isLoading) {
       navigate("/");
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user.email, isLoading]);
 
   return (
@@ -62,13 +64,13 @@ const Login = () => {
           >
             Login
           </button>
-          <p className="text-xl text-center my-5">OR</p>
+          {/* <p className="text-xl text-center my-5">OR</p>
 
           <input
             className="w-full bg-sec_primary px-2 py-1 rounded-lg"
             type="button"
             value="Login with Google"
-          />
+          /> */}
         </form>
       </div>
     </div>

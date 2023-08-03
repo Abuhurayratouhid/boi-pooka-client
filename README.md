@@ -14,4 +14,4 @@ client-side code :
 
 server-side code :
 
-[https://github.com/mahabubr/book-spot-server](https://github.com/mahabubr/book-spot-server)
+[https://github.com/Abuhurayratouhid/boi-pooka-server](https://github.com/Abuhurayratouhid/boi-pooka-server)

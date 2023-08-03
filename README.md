@@ -1,27 +1,17 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Site
 
-Currently, two official plugins are available:
+The live site is hosted at [https://book-spot-da6c9.web.app/](https://book-spot-da6c9.web.app/). You can visit this URL to see the application in action and start exploring your favorite books.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Client Repository
 
-## Expanding the ESLint configuration
+The client-side code for Book Spot is available in the following repository:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+[https://github.com/mahabubr/book-spot](https://github.com/mahabubr/book-spot)
 
-- Configure the top-level `parserOptions` property like this:
+## Server Repository
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+The server-side code for Book Spot can be found in the following repository:
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+[https://github.com/mahabubr/book-spot-server](https://github.com/mahabubr/book-spot-server)

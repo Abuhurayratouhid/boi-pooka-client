@@ -32,6 +32,8 @@ const SingleBook = () => {
     creatorEmail,
   } = book || {};
 
+  console.log("reviews", reviews);
+
   const [
     deleteBook,
     {
@@ -180,9 +182,10 @@ const SingleBook = () => {
         <div className="right md:w-1/2 max-h-[100%] overflow-y-auto overflow-x-hidden p-2">
           <p className="text-center text-xl font-bold">Previous Reviews:</p>
           <div>
-            {reviews?.map((review) => (
-              <p key={review?._id}>{review?.comment}</p>
-            ))}
+            {reviews.length &&
+              reviews?.map((review: any) => {
+                return <p key={review.comment}>{review?.comment} </p>;
+              })}
           </div>
         </div>
       </div>

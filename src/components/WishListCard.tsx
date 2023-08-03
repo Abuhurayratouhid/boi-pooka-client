@@ -1,6 +1,11 @@
 import { toast } from "react-toastify";
+import { IBook } from "../interfaces/bookInterface";
 
-const WishListCard = ({ book }) => {
+interface IProps {
+  book: IBook;
+}
+
+const WishListCard = ({ book }: IProps) => {
   const { title, author, genre, publicationDate } = book;
 
   const handleCompleted = () => {

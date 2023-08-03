@@ -1,7 +1,12 @@
 import { Link } from "react-router-dom";
+import { IBook } from "../interfaces/bookInterface";
 // import { IBook } from "../interfaces/bookInterface";
 
-const BookCard = ({ book }) => {
+interface IProps {
+  book: IBook;
+}
+
+const BookCard = ({ book }: IProps) => {
   const { title, author, genre, publicationDate, _id } = book;
 
   return (
